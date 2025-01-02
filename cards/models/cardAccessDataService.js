@@ -1,13 +1,20 @@
+const DB = "MongoDB";
 const Card = require("./mongodb/Card");
 
 const createCard = async (newCard) => {
-  try {
-    let card = new Card(newCard);
-    card = await card.save();
-    return card;
-  } catch (error) {
-    throw new Error("Mongoose " + error.message);
+  if (DB === "MongoDB") {
+    try {
+      let card = new Card(newCard);
+      card = await card.save();
+      return card;
+    } catch (error) {
+      throw new Error("Mongoose " + error.message);
+    }
   }
+
+  // if(DB === "SQL"){
+  //   ...
+  // }
 };
 
 const getCards = async () => {
