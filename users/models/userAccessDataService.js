@@ -5,6 +5,7 @@ const registerUser = async (newUser) => {
   try {
     let user = new User(newUser);
     user = await user.save();
+    user = { email: user.email, name: user.name, _id: user._id };
     return user;
   } catch (error) {
     throw new Error("Mongoose " + error.message);

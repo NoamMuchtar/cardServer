@@ -17,13 +17,13 @@ const auth = (req, res, next) => {
       }
 
       req.user = userInfo;
-      next();
+      return next();
     } catch (error) {
       return res.status(401).send(error.message);
     }
   }
 
-  return res.status(500).send("The server not used calid token generator");
+  return res.status(500).send("The server not used valid token generator");
 };
 
 module.exports = auth;

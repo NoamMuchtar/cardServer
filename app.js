@@ -6,6 +6,7 @@ const router = require("./router/router");
 const corsMiddleware = require("./middlewares/cors");
 const app = express();
 const PORT = 8181;
+app.use(express.static("./public"));
 app.use(corsMiddleware);
 app.use(express.json());
 app.use((req, res, next) => {
