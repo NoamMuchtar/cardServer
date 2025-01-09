@@ -5,6 +5,7 @@ const connectToDB = require("./DB/dbService");
 const router = require("./router/router");
 const corsMiddleware = require("./middlewares/cors");
 const { handleError } = require("./utils/handleErrors");
+const chalk = require("chalk");
 const app = express();
 const PORT = 8181;
 app.use(express.static("./public"));
@@ -26,6 +27,6 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(PORT, () => {
-  console.log("Server lisening to port " + PORT);
+  console.log(chalk.bgGreen.green("Server lisening to port " + PORT));
   connectToDB();
 });
