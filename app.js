@@ -4,6 +4,7 @@ const cors = require("cors");
 const connectToDB = require("./DB/dbService");
 const router = require("./router/router");
 const corsMiddleware = require("./middlewares/cors");
+const { handleError } = require("./utils/handleErrors");
 const app = express();
 const PORT = 8181;
 app.use(express.static("./public"));
@@ -20,7 +21,8 @@ app.use((req, res, next) => {
 app.use(router);
 
 app.use((err, req, res, next) => {
-  res.status(500).send("Internal Server error.");
+  const message = err || "Internal Server error";
+  return handleError(res, 500, message);
 });
 
 app.listen(PORT, () => {

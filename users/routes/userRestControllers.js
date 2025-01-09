@@ -5,6 +5,7 @@ const {
   loginUser,
 } = require("../models/userAccessDataService");
 const auth = require("../../auth/authService");
+const { handleError } = require("../../utils/handleErrors");
 const router = express.Router();
 
 router.post("/", async (req, res) => {
@@ -12,7 +13,7 @@ router.post("/", async (req, res) => {
     let user = await registerUser(req.body);
     res.send(user);
   } catch (error) {
-    res.status(400).send(error.message);
+    handleError(res, error.status || 400, error.message);
   }
 });
 
@@ -32,7 +33,7 @@ router.get("/:id", auth, async (req, res) => {
     let user = await getUser(id);
     res.send(user);
   } catch (error) {
-    res.status(400).send(error.message);
+    handleError(res, error.status || 400, error.message);
   }
 });
 
@@ -42,7 +43,7 @@ router.post("/login", async (req, res) => {
     const token = await loginUser(email, password);
     res.send(token);
   } catch (error) {
-    res.status(400).send(error.message);
+    handleError(res, error.status || 400, error.message);
   }
 });
 

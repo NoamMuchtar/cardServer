@@ -1,10 +1,13 @@
 const _ = require("lodash");
 const Card = require("../models/mongodb/Card");
+const { createError } = require("../../utils/handleErrors");
 
 const generateBizNum = async () => {
   let cardCount = await Card.countDocuments();
   if (cardCount === 8_999_999) {
-    throw new Error("You reched to maximum cards count in your system");
+    const error = new Error("You reched to maximum cards count in your system");
+    error.status = 507;
+    return createError("mongoose", error);
   }
   let random;
   do {
@@ -19,7 +22,8 @@ const checkBizNumberExsist = async (bizNumber) => {
     const bizNumberExsist = await Card.findOne({ bizNumber });
     return Boolean(bizNumberExsist);
   } catch (error) {
-    throw new Error("Mongoose :" + error.message);
+    error.status = 500;
+    return createError("mongoose", error);
   }
 };
 
