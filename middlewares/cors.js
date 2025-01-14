@@ -6,6 +6,7 @@ const corsMiddleware = cors({
     "www.cardsproject.co.il",
     "http://localhost:5173",
     "http://localhost:3000",
+    "https://cards-project-front-end.onrender.com/",
   ],
 });
 
