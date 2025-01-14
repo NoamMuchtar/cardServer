@@ -6,10 +6,19 @@ const {
 } = require("../models/userAccessDataService");
 const auth = require("../../auth/authService");
 const { handleError } = require("../../utils/handleErrors");
+const {
+  validateRegistration,
+  validateLogin,
+} = require("../validation/userValidationService");
 const router = express.Router();
 
 router.post("/", async (req, res) => {
   try {
+    console.log(req.body);
+    const validateErrorMessage = validateRegistration(req.body);
+    if (validateErrorMessage !== "") {
+      return handleError(res, 400, "Validation" + validateErrorMessage);
+    }
     let user = await registerUser(req.body);
     res.send(user);
   } catch (error) {
@@ -39,6 +48,10 @@ router.get("/:id", auth, async (req, res) => {
 
 router.post("/login", async (req, res) => {
   try {
+    const validateErrorMessage = validateLogin(req.body);
+    if (validateErrorMessage !== "") {
+      return handleError(res, 400, "Validation" + validateErrorMessage);
+    }
     let { email, password } = req.body;
     const token = await loginUser(email, password);
     res.send(token);
